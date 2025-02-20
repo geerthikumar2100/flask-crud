@@ -76,8 +76,9 @@ def insert_template(current_user):
             'body': data['body'],
             'user_id': ObjectId(current_user['_id'])
         }
-        mongo.db.templates.insert_one(template_data)
-        return jsonify({'message': 'Template created successfully!'}), 201
+        result = mongo.db.templates.insert_one(template_data)
+        template_id = str(result.inserted_id)
+        return jsonify({'message': 'Template created successfully!', 'Template ID': template_id}), 201
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
